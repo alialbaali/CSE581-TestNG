@@ -12,26 +12,36 @@ class InventoryPage(private val driver: WebDriver) {
         return driver.findElements(By.className("inventory_item"))
     }
 
-    fun addProductToCart(index: Int) {
+    fun addProductToCart(index: Int): InventoryPage {
         getProducts()[index]
             .findElement(By.className("btn_inventory"))
             .click()
+        return this
     }
 
-    fun removeCartItem(index: Int) {
+    fun removeProductFromCart(index: Int): InventoryPage {
         getProducts()[index]
             .findElement(By.className("btn_inventory"))
             .click()
+        return this
     }
 
-    fun sortBy(sortType: SortType) {
-        val elemnts = driver.findElements(By.tagName("option"))
-        elemnts[sortType.ordinal].click()
+    fun openProduct(index: Int): InventoryItemPage {
+        getProducts()[index]
+            .findElement(By.className("inventory_item_img"))
+            .click()
+        return InventoryItemPage(driver, index)
     }
 
+    fun sortProductsBy(sortType: SortType): InventoryPage {
+        val elements = driver.findElements(By.tagName("option"))
+        elements[sortType.ordinal].click()
+        return this
+    }
 
     enum class SortType {
         NAME_A_TO_Z, NAME_Z_TO_A,
         PRICE_HIGH_TO_LOW, PRICE_LOW_TO_HIGH
     }
+
 }
