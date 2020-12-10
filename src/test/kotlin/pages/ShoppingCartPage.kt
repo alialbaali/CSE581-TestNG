@@ -15,10 +15,11 @@ class ShoppingCartPage(private val driver: WebDriver) {
         return driver.findElements(By.className("cart_item"))
     }
 
-    fun removeCartItem(index: Int) {
+    fun removeCartItem(index: Int): ShoppingCartPage {
         getCartItems()[index]
             .findElement(By.className("cart_button"))
             .click()
+        return this
     }
 
     fun checkout(): CheckoutPage.CheckoutStep1 {
